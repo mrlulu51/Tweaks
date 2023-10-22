@@ -1,6 +1,6 @@
-package com.example.examplemod.platform;
+package fr.mrlulu51.tweaks.platform;
 
-import com.example.examplemod.platform.services.IPlatformHelper;
+import fr.mrlulu51.tweaks.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 

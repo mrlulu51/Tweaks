@@ -1,4 +1,4 @@
-package com.example.examplemod.platform.services;
+package fr.mrlulu51.tweaks.platform.services;
 
 public interface IPlatformHelper {
 

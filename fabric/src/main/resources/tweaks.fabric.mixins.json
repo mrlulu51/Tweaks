@@ -7,12 +7,12 @@
     "mixins": [
     ],
     "client": [
-        "MixinMinecraft"
+      "fr.mrlulu51.tweaks.mixin.MixinTitleScreen"
     ],
     "server": [
     ],
     "injectors": {
-        "defaultRequire": 1
+      "defaultRequire": 1
     }
-}
-
+  }
+  
