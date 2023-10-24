@@ -1,4 +1,4 @@
-package fr.mrlulu51.tweaks.platform;
+package fr.mrlulu51.tweaks.services;
 
 import fr.mrlulu51.tweaks.platform.services.IPlatformHelper;
 import net.minecraftforge.fml.ModList;
