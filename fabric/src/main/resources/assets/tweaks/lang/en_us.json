@@ -1,0 +1,7 @@
+{
+  "options.tweaks": "Tweaks...",
+  "options.tweaks.title": "Tweaks Config",
+
+  "config.shulker_view": "Shulker View",
+  "config.shulker_view.desc": "View shulker content when hover it in the Inventory Menu"
+}
