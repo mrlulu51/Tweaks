@@ -23,7 +23,7 @@ dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":common")
 
-    def catConfigMCDependency = "io.github.lgatodu47:catconfig-mc:${minecraft_version}.1-0.1.1"
+    def catConfigMCDependency = "io.github.lgatodu47:catconfig-mc:${minecraft_version}-0.1.1"
     modImplementation catConfigMCDependency
     include catConfigMCDependency
     implementation "io.github.lgatodu47:catconfig:0.2.4"

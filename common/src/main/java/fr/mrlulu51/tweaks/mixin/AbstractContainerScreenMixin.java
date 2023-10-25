@@ -41,7 +41,6 @@ public abstract class AbstractContainerScreenMixin extends Screen {
         }
         ItemStack stack = this.hoveredSlot.getItem();
         Block shulker = Block.byItem(stack.getItem());
-        System.out.println(shulker);
 
         if(shulker instanceof ShulkerBoxBlock && Services.CONFIG.isShulkerViewerEnabled()) {
             this.renderShulkerTooltip(graphics, mouseX, mouseY, stack);
