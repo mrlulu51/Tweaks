@@ -34,7 +34,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
         if(distance <= 4096 && Services.CONFIG.isDisplayEntityLifeEnabled() && entity != Minecraft.getInstance().player) {
             boolean discrete = !entity.isDiscrete();
-            float nametagOffset = entity.getNameTagOffsetY();
+            float nametagOffset = entity.getNameTagOffsetY() + 0.75F;
             float life = entity.getHealth();
 
             pose.pushPose();
@@ -48,7 +48,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             String str = "Life: " + (int) life;
             Font font = this.getFont();
             float width = (float)(-font.width(str) / 2);
-            font.drawInBatch(str, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, alpha, light);
+            font.drawInBatch(str, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);
 
             if(discrete) {
                 font.drawInBatch(str, width, 0, -1, false, matrix, buff, Font.DisplayMode.NORMAL, 0, light);
