@@ -8,11 +8,12 @@
         "${mod_author}"
     ],
     "contact": {
-        "homepage": "https://fabricmc.net/",
-        "sources": "https://github.com/FabricMC/fabric-example-mod"
+        "homepage": "https://github.com/mrlulu51/Tweaks-MC",
+        "sources": "https://github.com/mrlulu51/Tweaks-MC",
+        "issues": "https://github.com/mrlulu51/Tweaks-MC/issues"
     },
     "license": "${license}",
-    "icon": "assets/modid/${mod_id}.png",
+    "icon": "assets/${mod_id}/icon.png",
     "environment": "*",
     "entrypoints": {
         "main": [
@@ -20,6 +21,9 @@
         ],
         "client": [
             "fr.mrlulu51.tweaks.client.TweaksClientEntrypoint"
+        ],
+        "modmenu": [
+            "fr.mrlulu51.tweaks.client.TweaksModMenuAPI"
         ]
     },
     "mixins": [

@@ -13,6 +13,11 @@ repositories {
         name 'Sonatype Repositories'
         url 'https://s01.oss.sonatype.org/content/repositories/releases'
     }
+
+    maven {
+        name "Mod Menu Maven Repo"
+        url "https://maven.terraformersmc.com/releases"
+    }
 }
 
 dependencies {
@@ -27,6 +32,8 @@ dependencies {
     modImplementation catConfigMCDependency
     include catConfigMCDependency
     implementation "io.github.lgatodu47:catconfig:0.2.4"
+
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 loom {

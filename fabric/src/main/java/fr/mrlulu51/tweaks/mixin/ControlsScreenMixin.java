@@ -1,8 +1,6 @@
 package fr.mrlulu51.tweaks.mixin;
 
-import fr.mrlulu51.tweaks.FabricTweaks;
-import fr.mrlulu51.tweaks.config.TweaksRenderedConfigOptions;
-import io.github.lgatodu47.catconfigmc.screen.ModConfigScreen;
+import fr.mrlulu51.tweaks.client.screen.TweaksConfigScreen;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
@@ -24,7 +22,7 @@ public class ControlsScreenMixin extends OptionsSubScreen {
     @Inject(at = @At("HEAD"), method = "init")
     protected void init(CallbackInfo ci) {
         this.addRenderableWidget(Button.builder(Component.translatable("options.tweaks"), (button) -> {
-            this.minecraft.setScreen(new ModConfigScreen(Component.translatable("options.tweaks.title"), this, FabricTweaks.config, TweaksRenderedConfigOptions::options));
+            this.minecraft.setScreen(new TweaksConfigScreen(this));
         }).bounds(this.width / 2 - 100, this.height - 25, 200, 20).build());
     }
 }
