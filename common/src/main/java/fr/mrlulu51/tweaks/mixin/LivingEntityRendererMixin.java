@@ -45,7 +45,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             Matrix4f matrix = pose.last().pose();
             float backgroundOpacity = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
             int alpha = (int)(backgroundOpacity * 255.0F) << 24;
-            String str = "Life: " + (int) life;
+            String str = Component.translatable("tweak.entity_life.name").getString() + ": " + (int) life + " PV";
             Font font = this.getFont();
             float width = (float)(-font.width(str) / 2);
             font.drawInBatch(str, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);

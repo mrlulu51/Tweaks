@@ -1,0 +1,16 @@
+{
+  "options.tweaks": "Tweaks...",
+  "options.tweaks.title": "Configuration de Tweaks",
+
+  "category.tweaks": "Touches de Tweaks",
+
+  "config.shulker_view": "Contenu des shulkers",
+  "config.entity_life_display": "Vie des entités",
+
+  "config.shulker_view.desc": "Voir le contenu de la boite de shulker en la survolant dans l'inventaire avec le curseur",
+  "config.entity_life_display.desc": "Afficher la vie des entités au dessus de leurs têtes",
+
+  "key.tweaks.open_config": "Ouvrir le menu de configuration",
+
+  "tweak.entity_life.name": "Vie"
+}
