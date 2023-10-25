@@ -9,4 +9,9 @@ public class ForgeConfigHelper implements IConfigHelper {
     public boolean isShulkerViewerEnabled() {
         return ForgeTweaks.config.shulkerViewerEnabled.get();
     }
+
+    @Override
+    public boolean isDisplayEntityLifeEnabled() {
+        return ForgeTweaks.config.entityLifeDisplayEnabled.get();
+    }
 }

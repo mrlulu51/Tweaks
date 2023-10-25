@@ -6,9 +6,11 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public class TweaksForgeConfig {
     public final ForgeConfigSpec.BooleanValue shulkerViewerEnabled;
+    public final ForgeConfigSpec.BooleanValue entityLifeDisplayEnabled;
 
     public TweaksForgeConfig(ForgeConfigSpec.Builder builder) {
         shulkerViewerEnabled = builder.define("shulkerViewEnabled", true);
+        entityLifeDisplayEnabled = builder.define("entityLifeDisplayEnabled", true);
     }
 
     public static TweaksForgeConfig registerConfigSpecs(ModLoadingContext ctx) {

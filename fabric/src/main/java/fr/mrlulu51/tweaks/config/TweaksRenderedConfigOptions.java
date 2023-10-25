@@ -1,6 +1,5 @@
 package fr.mrlulu51.tweaks.config;
 
-import fr.mrlulu51.tweaks.FabricTweaks;
 import io.github.lgatodu47.catconfigmc.RenderedConfigOption;
 import io.github.lgatodu47.catconfigmc.RenderedConfigOptionBuilder;
 
@@ -12,6 +11,7 @@ public class TweaksRenderedConfigOptions {
 
     static {
         BUILDER.ofBoolean(TweaksConfigOptions.SHULKER_VIEWER).setCommonTranslationKey("config.shulker_view").build();
+        BUILDER.ofBoolean(TweaksConfigOptions.ENTITY_LIFE_DISPLAY).setCommonTranslationKey("config.entity_life_display").build();
     }
 
     public static List<RenderedConfigOption<?>> options() {

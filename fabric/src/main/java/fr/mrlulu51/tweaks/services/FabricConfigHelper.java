@@ -9,4 +9,9 @@ public class FabricConfigHelper implements IConfigHelper {
     public boolean isShulkerViewerEnabled() {
         return FabricTweaks.config.getOrFallback(TweaksConfigOptions.SHULKER_VIEWER, false);
     }
+
+    @Override
+    public boolean isDisplayEntityLifeEnabled() {
+        return FabricTweaks.config.getOrFallback(TweaksConfigOptions.ENTITY_LIFE_DISPLAY, false);
+    }
 }

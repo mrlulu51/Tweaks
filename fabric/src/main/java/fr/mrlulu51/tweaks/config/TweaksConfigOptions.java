@@ -11,4 +11,5 @@ public class TweaksConfigOptions {
         BUILDER.onSides(MinecraftConfigSides.CLIENT);
     }
     public static final ConfigOption<Boolean> SHULKER_VIEWER = BUILDER.createBool("shulker_viewer", true);
+    public static final ConfigOption<Boolean> ENTITY_LIFE_DISPLAY = BUILDER.createBool("entity_life_display", true);
 }
