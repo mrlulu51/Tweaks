@@ -2,9 +2,13 @@
   "options.tweaks": "Tweaks...",
   "options.tweaks.title": "Tweaks Config",
 
+  "category.tweaks": "Tweaks Keys",
+
   "config.shulker_view": "Shulker View",
   "config.entity_life_display": "Entity Life Display",
 
   "config.shulker_view.desc": "View shulker content when hover it in the Inventory Menu",
-  "config.entity_life_display.desc": "Display the entity life above his head"
+  "config.entity_life_display.desc": "Display the entity life above his head",
+
+  "key.tweaks.open_config": "Open Config"
 }

@@ -17,6 +17,9 @@
     "entrypoints": {
         "main": [
             "fr.mrlulu51.tweaks.FabricTweaks"
+        ],
+        "client": [
+            "fr.mrlulu51.tweaks.client.TweaksClientEntrypoint"
         ]
     },
     "mixins": [
