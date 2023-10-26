@@ -1,25 +1,37 @@
 package fr.mrlulu51.tweaks.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import fr.mrlulu51.tweaks.Constants;
 import fr.mrlulu51.tweaks.platform.Services;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends EntityRenderer<T> {
+    @Shadow public abstract void render(T $$0, float $$1, float $$2, PoseStack $$3, MultiBufferSource $$4, int $$5);
+
+    @Unique
+    private static final ResourceLocation LIFE_INDICATOR = new ResourceLocation(Constants.MOD_ID, "textures/misc/life_indicator.png");
+    @Unique
+    private static final RenderType TEXTURE_RENDER_TYPE = RenderType.text(LIFE_INDICATOR);
+    @Unique
+    private static final int[] FULL_HP_RGB = new int[] {66, 216, 49}, LOW_HP_RGB = new int[] {216, 49, 49};
 
     protected LivingEntityRendererMixin(EntityRendererProvider.Context $$0) {
         super($$0);
@@ -29,8 +41,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     public void render(T entity, float val, float delta, PoseStack pose, MultiBufferSource buff, int light, CallbackInfo ci) {
         double distance = this.entityRenderDispatcher.distanceToSqr(entity);
 
-        if(distance <= 4096 && Services.CONFIG.isDisplayEntityLifeEnabled() && entity != Minecraft.getInstance().player) {
-            boolean discrete = !entity.isDiscrete();
+        if(distance <= 4096 && Services.CONFIG.isDisplayEntityLifeEnabled() && entity != entityRenderDispatcher.camera.getEntity()) {
+            boolean notDiscrete = !entity.isDiscrete();
             float nametagOffset = entity.getNameTagOffsetY() + 0.75F;
             float life = entity.getHealth();
 
@@ -40,18 +52,36 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             pose.scale(-0.025F, -0.025F, 0.025F);
 
             Matrix4f matrix = pose.last().pose();
-            float backgroundOpacity = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
-            int alpha = (int)(backgroundOpacity * 255.0F) << 24;
+            float backgroundOpacity = entityRenderDispatcher.options.getBackgroundOpacity(0.25F);
+            int alpha = (int) (backgroundOpacity * 255.0F) << 24;
             Component hpComponent = Component.translatable("tweaks.entity_life.name", (int) life);
             Font font = this.getFont();
-            float width = (float)(-font.width(hpComponent) / 2);
-            font.drawInBatch(hpComponent, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);
+            float textX = (float) (-font.width(hpComponent) / 2);
 
-            if(discrete) {
-                font.drawInBatch(hpComponent, width, 0, -1, false, matrix, buff, Font.DisplayMode.NORMAL, 0, light);
+            pose.pushPose();
+            pose.translate(textX - 10, 0, 0);
+            tweaks_MC$renderLifeIndicator(1 - life / entity.getMaxHealth(), pose.last().pose(), buff.getBuffer(TEXTURE_RENDER_TYPE), light);
+            pose.popPose();
+
+            font.drawInBatch(hpComponent, textX, 0, 553648127, false, matrix, buff, notDiscrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);
+            if(notDiscrete) {
+                font.drawInBatch(hpComponent, textX, 0, -1, false, matrix, buff, Font.DisplayMode.NORMAL, 0, light);
             }
 
             pose.popPose();
         }
+    }
+
+    @Unique
+    private void tweaks_MC$renderLifeIndicator(float hpRatio, Matrix4f pose, VertexConsumer consumer, int light) {
+        int[] currentHPRGB = new int[] {
+                (int) (FULL_HP_RGB[0] - (FULL_HP_RGB[0] - LOW_HP_RGB[0]) * hpRatio),
+                (int) (FULL_HP_RGB[1] - (FULL_HP_RGB[1] - LOW_HP_RGB[1]) * hpRatio),
+                49
+        };
+        consumer.vertex(pose, 8, 0, 0).color(currentHPRGB[0], currentHPRGB[1], currentHPRGB[2], 255).uv(0, 0).uv2(light).endVertex();
+        consumer.vertex(pose, 0, 0, 0).color(currentHPRGB[0], currentHPRGB[1], currentHPRGB[2], 255).uv(1, 0).uv2(light).endVertex();
+        consumer.vertex(pose, 0, 8, 0).color(currentHPRGB[0], currentHPRGB[1], currentHPRGB[2], 255).uv(1, 1).uv2(light).endVertex();
+        consumer.vertex(pose, 8, 8, 0).color(currentHPRGB[0], currentHPRGB[1], currentHPRGB[2], 255).uv(0, 1).uv2(light).endVertex();
     }
 }
