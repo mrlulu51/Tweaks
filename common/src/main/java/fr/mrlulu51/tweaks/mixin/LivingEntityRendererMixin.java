@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,6 +22,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.text.DecimalFormat;
 
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends EntityRenderer<T> {
@@ -32,6 +35,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private static final RenderType TEXTURE_RENDER_TYPE = RenderType.text(LIFE_INDICATOR);
     @Unique
     private static final int[] FULL_HP_RGB = new int[] {66, 216, 49}, LOW_HP_RGB = new int[] {216, 49, 49};
+    @Unique
+    private static final DecimalFormat LIFE_FORMAT = new DecimalFormat("#.#");
 
     protected LivingEntityRendererMixin(EntityRendererProvider.Context $$0) {
         super($$0);
@@ -39,6 +44,9 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;render(Lnet/minecraft/world/entity/Entity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"), method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
     public void render(T entity, float val, float delta, PoseStack pose, MultiBufferSource buff, int light, CallbackInfo ci) {
+        if(entity != entityRenderDispatcher.crosshairPickEntity) {
+            return;
+        }
         double distance = this.entityRenderDispatcher.distanceToSqr(entity);
 
         if(distance <= 4096 && Services.CONFIG.isDisplayEntityLifeEnabled() && entity != entityRenderDispatcher.camera.getEntity()) {
@@ -54,13 +62,13 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             Matrix4f matrix = pose.last().pose();
             float backgroundOpacity = entityRenderDispatcher.options.getBackgroundOpacity(0.25F);
             int alpha = (int) (backgroundOpacity * 255.0F) << 24;
-            Component hpComponent = Component.translatable("tweaks.entity_life.name", (int) life);
+            Component hpComponent = Component.translatable("tweaks.entity_life.name", LIFE_FORMAT.format(life));
             Font font = this.getFont();
             float textX = (float) (-font.width(hpComponent) / 2);
 
             pose.pushPose();
             pose.translate(textX - 10, 0, 0);
-            tweaks_MC$renderLifeIndicator(1 - life / entity.getMaxHealth(), pose.last().pose(), buff.getBuffer(TEXTURE_RENDER_TYPE), light);
+            tweaks_MC$renderLifeIndicator(Mth.clamp(1 - life / entity.getMaxHealth(), 0, 1), pose.last().pose(), buff.getBuffer(TEXTURE_RENDER_TYPE), light);
             pose.popPose();
 
             font.drawInBatch(hpComponent, textX, 0, 553648127, false, matrix, buff, notDiscrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);

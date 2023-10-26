@@ -12,5 +12,5 @@
 
   "key.tweaks.open_config": "Open Config",
 
-  "tweaks.entity_life.name": "Life: %d HP"
+  "tweaks.entity_life.name": "Life: %s HP"
 }
