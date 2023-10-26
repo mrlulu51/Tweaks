@@ -1,9 +1,7 @@
 package fr.mrlulu51.tweaks.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import fr.mrlulu51.tweaks.CommonClass;
 import fr.mrlulu51.tweaks.platform.Services;
-import fr.mrlulu51.tweaks.platform.services.IConfigHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.EntityModel;
@@ -13,7 +11,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,13 +42,13 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             Matrix4f matrix = pose.last().pose();
             float backgroundOpacity = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
             int alpha = (int)(backgroundOpacity * 255.0F) << 24;
-            String str = Component.translatable("tweak.entity_life.name").getString() + ": " + (int) life + " PV";
+            Component hpComponent = Component.translatable("tweaks.entity_life.name", (int) life);
             Font font = this.getFont();
-            float width = (float)(-font.width(str) / 2);
-            font.drawInBatch(str, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);
+            float width = (float)(-font.width(hpComponent) / 2);
+            font.drawInBatch(hpComponent, width, 0, 553648127, false, matrix, buff, discrete ? Font.DisplayMode.NORMAL : Font.DisplayMode.SEE_THROUGH, alpha, light);
 
             if(discrete) {
-                font.drawInBatch(str, width, 0, -1, false, matrix, buff, Font.DisplayMode.NORMAL, 0, light);
+                font.drawInBatch(hpComponent, width, 0, -1, false, matrix, buff, Font.DisplayMode.NORMAL, 0, light);
             }
 
             pose.popPose();

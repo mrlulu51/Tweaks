@@ -12,5 +12,5 @@
 
   "key.tweaks.open_config": "Ouvrir le menu de configuration",
 
-  "tweak.entity_life.name": "Vie"
+  "tweaks.entity_life.name": "Vie: %d PV"
 }
